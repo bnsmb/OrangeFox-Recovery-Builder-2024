@@ -109,8 +109,9 @@ jobs:
 
     - name: Ensure TW_MAX_BRIGHTNESS is set
       run: |
-        grep -q 'TW_MAX_BRIGHTNESS' device/asus/I006D/BoardConfig.mk || \
-        echo 'TW_MAX_BRIGHTNESS := 255' >> device/asus/I006D/BoardConfig.mk
+        pwd ; ls -l && \
+        grep -q 'TW_MAX_BRIGHTNESS' ${GITHUB_WORKSPACE}/OrangeFox/fox_12.1/device/asus/I006D/BoardConfig.mk || \
+        echo 'TW_MAX_BRIGHTNESS := 255' >> ${GITHUB_WORKSPACE}/OrangeFox/fox_12.1/device/asus/I006D/BoardConfig.mk
 
     - name: Check Manifest Branch
       uses: haya14busa/action-cond@v1
