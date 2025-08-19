@@ -45,6 +45,10 @@ on:
         - boot
         - recovery
         - vendorboot
+      MAGISK_VERSION:
+        description: 'Magisk version to use:'
+        required: true
+        default: 'v29.0'      
       LDCHECK:
         description: 'Path of blobs to check' 
         required: true
@@ -183,7 +187,7 @@ jobs:
         cd ${{ env.FILE_PATH }}/
         pwd ; ls -l
         test -r ./boot.img  && \
-           /usr/bin/wget -q https://github.com/topjohnwu/Magisk/releases/download/v29.0/Magisk-v29.0.apk -O Magisk.apk && \
+           /usr/bin/wget -q https://github.com/topjohnwu/Magisk/releases/download/${{ github.event.inputs.MAGISK_VERSION }}/Magisk-${{ github.event.inputs.MAGISK_VERSION }}.apk -O Magisk.apk && \
            ls -l Magisk.apk && \
            /usr/bin/unzip -p Magisk.apk  lib/x86/libmagiskboot.so >magiskboot && \
            chmod 755 magiskboot && \
@@ -201,11 +205,11 @@ jobs:
           pwd && \
           ls -l && \
           cp ../los/kernel . && \
-          ${{ env.FILE_PATH }}/magiskboot repack ../boot.img ../OrangeFox_recovery_${{ env.LOS_VERSION }}.img && \
+          ${{ env.FILE_PATH }}/magiskboot repack ../boot.img ../OrangeFox_recovery_${{ github.event.inputs.LOS_VERSION }}.img && \
           pwd && \
           ls -l
       continue-on-error: true
-      
+    
     - name: Include Recovery Installer
       run: |
         cd ${{ env.FILE_PATH }}/
@@ -218,6 +222,7 @@ jobs:
       uses: softprops/action-gh-release@v1
       with:
         files: |
+          ${{ env.FILE_PATH }}/${{ env.RECOVERY_TYPE }}.img        
           ${{ env.FILE_PATH }}/recovery-installer.zip
           ${{ env.FILE_PATH }}/OrangeFox*.zip
           ${{ env.FILE_PATH }}/OrangeFox*.img
