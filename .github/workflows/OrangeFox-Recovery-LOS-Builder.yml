@@ -183,13 +183,27 @@ jobs:
         cd ${{ env.FILE_PATH }}/
         pwd ; ls -l
         test -r ./boot.img  && \
-           /usr/bin/wget https://github.com/topjohnwu/Magisk/releases/download/v29.0/Magisk-v29.0.apk -O Magisk.apk && \
-           /usr/bin/unzip -p Magisk.apk  lib/x86/libmagiskboot.so >magiskboot && chmod 755 magiskboot && \
-            /usr/bin/wget ${{ github.event.inputs.LOS_BOOT_IMAGE }} -O ./los_boot.img  && \
-            mkdir -p los && cd los && ${{ env.FILE_PATH }}/magiskboot unpack -h ../los_boot.img && pwd && ls -l && cd .. \
-            mkdir -p work && cd work && ${{ env.FILE_PATH }}/magiskboot unpack -h ../boot.img && pwd && ls -l && \
-            cp ../los/kernel . && ${{ env.FILE_PATH }}/magiskboot repack ../boot.img ../OrangeFox_recovery_${{ env.LOS_VERSION }}.img
-            pwd && ls -l
+           /usr/bin/wget -q https://github.com/topjohnwu/Magisk/releases/download/v29.0/Magisk-v29.0.apk -O Magisk.apk && \
+           ls -l Magisk.apk && \
+           /usr/bin/unzip -p Magisk.apk  lib/x86/libmagiskboot.so >magiskboot && \
+           chmod 755 magiskboot && \
+           ls -l magiskboot && \
+           /usr/bin/wget -q ${{ github.event.inputs.LOS_BOOT_IMAGE }} -O ./los_boot.img  && \
+           mkdir -p los && \
+           cd los && \
+           ${{ env.FILE_PATH }}/magiskboot unpack -h ../los_boot.img && \
+           pwd && \
+           ls -l && \
+           cd .. && \
+          mkdir -p work && \
+          cd work && \
+          ${{ env.FILE_PATH }}/magiskboot unpack -h ../boot.img && \
+          pwd && \
+          ls -l && \
+          cp ../los/kernel . && \
+          ${{ env.FILE_PATH }}/magiskboot repack ../boot.img ../OrangeFox_recovery_${{ env.LOS_VERSION }}.img && \
+          pwd && \
+          ls -l
       continue-on-error: true
       
     - name: Include Recovery Installer
@@ -204,11 +218,9 @@ jobs:
       uses: softprops/action-gh-release@v1
       with:
         files: |
-          ${{ env.FILE_PATH }}/${{ env.RECOVERY_TYPE }}.img
-          ${{ env.FILE_PATH }}/${{ env.RECOVERY_TYPE }}.tar
           ${{ env.FILE_PATH }}/recovery-installer.zip
           ${{ env.FILE_PATH }}/OrangeFox*.zip
-          ${{ env.FILE_PATH }}/${{ env.LOS_VERSION }}.img
+          ${{ env.FILE_PATH }}/OrangeFox*.img
         name: Unofficial OrangeFox for ${{ github.event.inputs.DEVICE_NAME }} // ${{ env.BUILD_DATE }}
         tag_name: ${{ github.run_id }}
         body: |
