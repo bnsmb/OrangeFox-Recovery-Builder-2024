@@ -49,16 +49,6 @@ on:
         description: 'Path of blobs to check' 
         required: true
         default: 'system/bin/qseecomd'
-      RECOVERY_TAR:
-        description: 'Release recovery.tar For Samsung devices'
-        required: false
-        default: false
-        type: boolean
-      RECOVERY_INSTALLER:
-        description: 'Include recovery installer zip'
-        type: boolean
-        required: true
-        default: true
 
 jobs:
   build:
@@ -200,21 +190,11 @@ jobs:
       
     - name: Include Recovery Installer
       run: |
-        if [ ${{ github.event.inputs.RECOVERY_INSTALLER }} = true ]; then
-          cd ${{ env.FILE_PATH }}/
-          wget https://github.com/kinguser981/recovery-installer/releases/download/11256427880/recovery-installer.zip
-          zip -ur recovery-installer.zip ${{ env.RECOVERY_TYPE }}.img
-        fi
+        cd ${{ env.FILE_PATH }}/
+        wget https://github.com/kinguser981/recovery-installer/releases/download/11256427880/recovery-installer.zip
+        zip -ur recovery-installer.zip ${{ env.RECOVERY_TYPE }}.img
       continue-on-error: true
         
-    - name: Recovery to tar for Samsung devices
-      run: |
-        if [ ${{ github.event.inputs.RECOVERY_TAR }} = true ]; then
-          cd ${{ env.FILE_PATH }}/
-          tar -cvf ${{ env.RECOVERY_TYPE }}.tar ${{ env.RECOVERY_TYPE }}.img
-        fi
-      continue-on-error: true
-
     - name: Upload to Release
       if: env.CHECK_IMG_IS_OK == 'true'
       uses: softprops/action-gh-release@v1
