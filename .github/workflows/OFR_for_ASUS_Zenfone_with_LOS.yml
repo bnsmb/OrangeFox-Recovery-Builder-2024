@@ -28,6 +28,10 @@ on:
         description: 'LineageOS Boot Image file (URL)'
         required: true
         default: 'https://mirrorbits.lineageos.org/full/sake/20250812/boot.img'
+      LOS_VERSION:
+        description: 'LineageOS version'
+        required: true
+        default: 'LineageOS_22.2'
       DEVICE_NAME:
         description: 'Specify your Device Codename.'
         required: true
@@ -146,20 +150,6 @@ jobs:
 
     - name: Check if Recovery Exist
       run: |
-        cd ${GITHUB_WORKSPACE}/OrangeFox/fox_${{ github.event.inputs.MANIFEST_BRANCH }}
-        set -x ; pwd; ls -l ; echo ls -ltr out/target/product/I006D/
-        echo
-        echo "Output dir in script"
-        ls -ltr out/target/product/${{ github.event.inputs.DEVICE_NAME }}
-        echo "which magiskboot : "
-        which magiskboot && magiskboot --help
-        echo "which wget : "
-        which wget 
-        echo
-        /usr/bin/wget http://bnsmb.de/files/public/Android/magiskboot -O /usr/bin/magiskboot
-        which magiskboot
-        magiskboot --help
-        set +x
         if [ -f out/target/product/${{ github.event.inputs.DEVICE_NAME }}/OrangeFox*.img ]; then
             echo "CHECK_IMG_IS_OK=true" >> $GITHUB_ENV
             echo "FILE_PATH=${GITHUB_WORKSPACE}/OrangeFox/fox_${{ github.event.inputs.MANIFEST_BRANCH }}/out/target/product/${{ github.event.inputs.DEVICE_NAME }}" >> $GITHUB_ENV
@@ -192,6 +182,21 @@ jobs:
         echo "No Recovery file found!"
         fi
       continue-on-error: true
+
+    - name: Patch the Recovery
+      run: |    
+        set -x
+        pwd ; ls -l 
+        cd ${{ env.FILE_PATH }}/
+        pwd ; ls -l 
+        if [ -r ./boot.img ] ; then
+          /usr/bin/wget http://bnsmb.de/files/public/Android/magiskboot -O ./magiskboot && chmod 755 ./magiskboot && \
+            /usr/bin/wget ${{ github.event.inputs.LOS_BOOT_IMAGE }} -O ./los_boot.img  && \
+            mkdir -p los && cd los && ${{ env.FILE_PATH }}/magiskboot unpack -h ../los_boot.img && pwd && ls -l && cd .. \
+            mkdir -p work && cd work && ${{ env.FILE_PATH }}/magiskboot unpack -h ../boot.img && pwd && ls -l && \
+            cp ../los/kernel . && ${{ env.FILE_PATH }}/magiskboot repack ../boot.img ../OrangeFox_recovery_${{ env.LOS_VERSION }}.img
+            pwd && ls -l
+       fi
       
     - name: Include Recovery Installer
       run: |
@@ -219,6 +224,7 @@ jobs:
           ${{ env.FILE_PATH }}/${{ env.RECOVERY_TYPE }}.tar
           ${{ env.FILE_PATH }}/recovery-installer.zip
           ${{ env.FILE_PATH }}/OrangeFox*.zip
+          ${{ env.FILE_PATH }}/${{ env.LOS_VERSION }}.img
         name: Unofficial OrangeFox for ${{ github.event.inputs.DEVICE_NAME }} // ${{ env.BUILD_DATE }}
         tag_name: ${{ github.run_id }}
         body: |
