@@ -2,6 +2,10 @@
 ```
 only Supports OrangeFox  (14.1 is not ready yet) / 12.1 / 11 
 ```
+
+The default values in this fork of the OrangeFox Recovery Builder are for creating a recovery for the **ASUS Zenfone 8**.
+
+
 ![cap_sprout](https://wiki.orangefox.tech/banner.svg)
 ---
 # Features
