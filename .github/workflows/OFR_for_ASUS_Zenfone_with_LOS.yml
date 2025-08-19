@@ -1,4 +1,4 @@
-name: OrangeFox - Build for ASUS Zenfone 8
+name: OrangeFox - Build for ASUS Zenfone 8 with LineageOS
 
 on:
   workflow_dispatch:
