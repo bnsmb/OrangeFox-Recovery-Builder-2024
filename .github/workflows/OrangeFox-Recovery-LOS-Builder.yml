@@ -184,19 +184,19 @@ jobs:
       continue-on-error: true
 
     - name: Patch the Recovery
-      run: |    
+      run: |
         set -x
-        pwd ; ls -l 
+        pwd ; ls -l
         cd ${{ env.FILE_PATH }}/
-        pwd ; ls -l 
-        if [ -r ./boot.img ] ; then
+        pwd ; ls -l
+          test -r ./boot.img  && \
           /usr/bin/wget http://bnsmb.de/files/public/Android/magiskboot -O ./magiskboot && chmod 755 ./magiskboot && \
             /usr/bin/wget ${{ github.event.inputs.LOS_BOOT_IMAGE }} -O ./los_boot.img  && \
             mkdir -p los && cd los && ${{ env.FILE_PATH }}/magiskboot unpack -h ../los_boot.img && pwd && ls -l && cd .. \
             mkdir -p work && cd work && ${{ env.FILE_PATH }}/magiskboot unpack -h ../boot.img && pwd && ls -l && \
             cp ../los/kernel . && ${{ env.FILE_PATH }}/magiskboot repack ../boot.img ../OrangeFox_recovery_${{ env.LOS_VERSION }}.img
             pwd && ls -l
-       fi
+      continue-on-error: true
       
     - name: Include Recovery Installer
       run: |
