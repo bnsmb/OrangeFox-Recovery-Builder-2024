@@ -1,4 +1,3 @@
-name: Build OFR for ASUS Zenfone 8 with LOS
 on:
   workflow_dispatch:
     inputs:
