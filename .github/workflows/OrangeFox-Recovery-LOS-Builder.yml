@@ -234,9 +234,11 @@ jobs:
 
     - name: Collect workflow logs
       run: |
-          mkdir logs
-          cp $GITHUB_WORKSPACE/*/*.log logs/ || true
-          cp $GITHUB_WORKSPACE/*.log logs/ || true
+          mkdir -p logs
+          echo "GITHUB_WORKSPACE is ${GITHUB_WORKSPACE}" 
+          find ${GITHUB_WORKSPACE} -type f -name *.log -ls || true
+          cp ${GITHUB_WORKSPACE}/*/*.log logs/ || true
+          cp ${GITHUB_WORKSPACE}/*.log logs/ || true
           zip -r build-logs.zip logs || true
         
     - name: Upload to Release
