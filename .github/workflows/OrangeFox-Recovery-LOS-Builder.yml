@@ -206,7 +206,7 @@ jobs:
            ls -l Magisk.apk && \
            /usr/bin/unzip -p Magisk.apk  lib/x86/libmagiskboot.so >magiskboot && \
            chmod 755 magiskboot && \
-           ls -l magiskboot && \  
+           ls -l magiskboot && \
            echo "### Unpack the boot.img file from OrangeFox ...." && \
            mkdir -p work && \
            cd work && \
@@ -228,7 +228,7 @@ jobs:
            cp ../work/ramdisk.cpio . && \
            echo  "### Correct the header ..." && \
            sed -i -e "s#^cmdline=#cmdline=${TWRP_CMDLINE} #g" header && \
-           cat header
+           cat header && \
            echo "### Create the new OrangeFox Recovery image for the LineageOS ..." && \
            ${{ env.FILE_PATH }}/magiskboot repack ../los_boot.img ../OrangeFox_recovery_${{ github.event.inputs.LOS_VERSION }}.img && \
            pwd && \
