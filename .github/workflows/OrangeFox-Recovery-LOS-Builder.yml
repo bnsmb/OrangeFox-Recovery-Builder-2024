@@ -233,7 +233,7 @@ jobs:
       continue-on-error: true
 
     - name: Collect workflow logs
-        run: |
+      run: |
           mkdir logs
           cp $GITHUB_WORKSPACE/*/*.log logs/ || true
           cp $GITHUB_WORKSPACE/*.log logs/ || true
