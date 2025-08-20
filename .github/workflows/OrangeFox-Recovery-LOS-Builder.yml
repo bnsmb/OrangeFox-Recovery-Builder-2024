@@ -188,12 +188,12 @@ jobs:
         cd ${{ env.FILE_PATH }}/
         pwd ; ls -l
         echo "
-        OrangeFox recovery for ${{ github.event.inputs.DEVICE_NAME }}) ${{ github.event.inputs.LOS_VERSION }}) created at $( date ) with these values
+        OrangeFox recovery for ${{ github.event.inputs.DEVICE_NAME }} ${{ github.event.inputs.LOS_VERSION }}) created at $( date ) with these values
 
         DEVICE_TREE:         ${{ github.event.inputs.DEVICE_TREE}}
         DEVICE_TREE_BRANCH:  ${{ github.event.inputs.DEVICE_TREE_BRANCH }}
         DEVICE_PATH:         ${{ github.event.inputs.DEVICE_PATH }}
-        LOS_BOOT_IMAGE:      ${{ github.event.inputs.DEVICE_LOS_BOOT_IMAGE }}
+        LOS_BOOT_IMAGE:      ${{ github.event.inputs.LOS_BOOT_IMAGE }}
         LOS_VERSION:         ${{ github.event.inputs.LOS_VERSION }}
         DEVICE_NAME:         ${{ github.event.inputs.DEVICE_NAME }}
         BUILD_TARGET:        ${{ github.event.inputs.BUILD_TARGET }}
@@ -231,6 +231,13 @@ jobs:
         wget https://github.com/kinguser981/recovery-installer/releases/download/11256427880/recovery-installer.zip
         zip -ur recovery-installer.zip ${{ env.RECOVERY_TYPE }}.img
       continue-on-error: true
+
+    - name: Collect workflow logs
+        run: |
+          mkdir logs
+          cp $GITHUB_WORKSPACE/*/*.log logs/ || true
+          cp $GITHUB_WORKSPACE/*.log logs/ || true
+          zip -r build-logs.zip logs || true
         
     - name: Upload to Release
       if: env.CHECK_IMG_IS_OK == 'true'
@@ -242,6 +249,7 @@ jobs:
           ${{ env.FILE_PATH }}/OrangeFox*.zip
           ${{ env.FILE_PATH }}/OrangeFox*.img
           ${{ env.FILE_PATH }}/OrangeFox*.txt
+          ${{ env.FILE_PATH }}/build-logs.zip
         name: Unofficial OrangeFox for ${{ github.event.inputs.DEVICE_NAME }} // ${{ env.BUILD_DATE }}
         tag_name: ${{ github.run_id }}
         body: |
@@ -264,7 +272,30 @@ jobs:
           Device: [Device Tree/Branch](${{ env.DEVICE_TREE_URL }}/tree/${{ inputs.DEVICE_TREE_BRANCH }})
           Commit: Most recent [commit](${{ env.DEVICE_TREE_URL }}/commit/${{ env.COMMIT_ID }}) during building.
           MD5 (img): ${{ env.MD5_IMG }}
-          
+
+    - name: Update Release with Log URL
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const { owner, repo } = context.repo;
+          const release_id = "${{ steps.create_release.outputs.id }}";
+          const log_url = `https://github.com/${owner}/${repo}/actions/runs/${{ github.run_id }}`;
+
+          const release = await github.rest.repos.getRelease({
+              owner,
+              repo,
+              release_id
+            });
+
+            const newBody = (release.data.body || "") + `\n\n🔗 [View Build Logs](${log_url})`;
+
+            await github.rest.repos.updateRelease({
+              owner,
+              repo,
+              release_id,
+              body: newBody
+            });     
+
     - name: Run LDCheck
       run: |
         cd tools
