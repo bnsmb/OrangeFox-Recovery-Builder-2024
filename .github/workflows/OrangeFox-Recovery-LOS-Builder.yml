@@ -288,16 +288,16 @@ jobs:
            owner,
            repo,
           release_id
-      });
+        });
 
-      const newBody = (release.data.body || "") + `\n\n🔗 [View Build Logs](${log_url})`;
+        const newBody = (release.data.body || "") + `\n\n🔗 [View Build Logs](${log_url})`;
 
-      await github.rest.repos.updateRelease({
-        owner,
-        repo,
-        release_id,
-        body: newBody
-      });
+        await github.rest.repos.updateRelease({
+          owner,
+          repo,
+          release_id,
+          body: newBody
+        });
 
     - name: Run LDCheck
       run: |
