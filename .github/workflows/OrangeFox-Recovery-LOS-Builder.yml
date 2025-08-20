@@ -274,8 +274,8 @@ jobs:
           MD5 (img): ${{ env.MD5_IMG }}
 
     - name: Update Release with Log URL
-     uses: actions/github-script@v7
-     with:
+      uses: actions/github-script@v7
+      with:
        script: |
             const { owner, repo } = context.repo;
             const release_id = "${{ steps.create_release.outputs.id }}";
