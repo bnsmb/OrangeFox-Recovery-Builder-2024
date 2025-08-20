@@ -74,6 +74,7 @@ jobs:
         echo "Include Recovery Installer: ${{ github.event.inputs.RECOVERY_INSTALLER }}"
         echo "Release recovery.tar For Samsung devices: ${{ github.event.inputs.RECOVERY_TAR }}"
         echo "LineageOS Boot image used: ${{ github.event.inputs.LOS_BOOT_IMAGE }}"
+        echo "LineageOS version: ${{ github.event.inputs.LOS_VERSION }}"
         echo "::endgroup::"
 
     - name: Clean-up
@@ -182,7 +183,10 @@ jobs:
 
     - name: Create Recovery for LineageOS
       run: |
+        set -x
+        pwd ; ls -l
         cd ${{ env.FILE_PATH }}/
+        pwd ; ls -l
         echo "
         OrangeFox recovery for ${{ github.event.inputs.DEVICE_NAME }}) ${{ github.event.inputs.LOS_VERSION }}) created at $( date ) with these values
 
@@ -196,12 +200,8 @@ jobs:
         MAGISK_VERSION:      ${{ github.event.inputs.MAGISK_VERSION }}
         LDCHECK:             ${{ github.event.inputs.LDCHECK }}
         "   >${{ env.FILE_PATH }}//OrangeFox_recovery_version.txt
-        set -x
-        pwd ; ls -l
-        cd ${{ env.FILE_PATH }}/
-        pwd ; ls -l
         test -r ./boot.img  && \
-           echo "Creating ugly boot image for ${{ github.event.inputs.LOS_VERSION }}" >./OrangeFox_recovery_${{ github.event.inputs.LOS_VERSION }}.txt && \
+           echo "Creating an ugly boot image for ${{ github.event.inputs.LOS_VERSION }} using the boot image  ${{ github.event.inputs.DEVICE_LOS_BOOT_IMAGE }} " >./OrangeFox_recovery.txt && \
            /usr/bin/wget -q https://github.com/topjohnwu/Magisk/releases/download/${{ github.event.inputs.MAGISK_VERSION }}/Magisk-${{ github.event.inputs.MAGISK_VERSION }}.apk -O Magisk.apk && \
            ls -l Magisk.apk && \
            /usr/bin/unzip -p Magisk.apk  lib/x86/libmagiskboot.so >magiskboot && \
@@ -241,7 +241,7 @@ jobs:
           ${{ env.FILE_PATH }}/recovery-installer.zip
           ${{ env.FILE_PATH }}/OrangeFox*.zip
           ${{ env.FILE_PATH }}/OrangeFox*.img
-          ${{ env.FILE_PATH }}/*.txt
+          ${{ env.FILE_PATH }}/OrangeFox*.txt
         name: Unofficial OrangeFox for ${{ github.event.inputs.DEVICE_NAME }} // ${{ env.BUILD_DATE }}
         tag_name: ${{ github.run_id }}
         body: |
