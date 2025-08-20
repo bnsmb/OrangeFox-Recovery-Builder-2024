@@ -182,6 +182,20 @@ jobs:
 
     - name: Create Recovery for LineageOS
       run: |
+        cd ${{ env.FILE_PATH }}/
+        echo "
+        OrangeFox recovery for ${{ github.event.inputs.DEVICE_NAME }}) ${{ github.event.inputs.LOS_VERSION }}) created at $( date ) with these values
+
+        DEVICE_TREE:         ${{ github.event.inputs.DEVICE_TREE}}
+        DEVICE_TREE_BRANCH:  ${{ github.event.inputs.DEVICE_TREE_BRANCH }}
+        DEVICE_PATH:         ${{ github.event.inputs.DEVICE_PATH }}
+        LOS_BOOT_IMAGE:      ${{ github.event.inputs.DEVICE_LOS_BOOT_IMAGE }}
+        LOS_VERSION:         ${{ github.event.inputs.LOS_VERSION }}
+        DEVICE_NAME:         ${{ github.event.inputs.DEVICE_NAME }}
+        BUILD_TARGET:        ${{ github.event.inputs.BUILD_TARGET }}
+        MAGISK_VERSION:      ${{ github.event.inputs.MAGISK_VERSION }}
+        LDCHECK:             ${{ github.event.inputs.LDCHECK }}
+        "   >${{ env.FILE_PATH }}//OrangeFox_recovery_version.txt
         set -x
         pwd ; ls -l
         cd ${{ env.FILE_PATH }}/
@@ -227,7 +241,7 @@ jobs:
           ${{ env.FILE_PATH }}/recovery-installer.zip
           ${{ env.FILE_PATH }}/OrangeFox*.zip
           ${{ env.FILE_PATH }}/OrangeFox*.img
-          ${{ env.FILE_PATH }}/OrangeFox*.txt
+          ${{ env.FILE_PATH }}/*.txt
         name: Unofficial OrangeFox for ${{ github.event.inputs.DEVICE_NAME }} // ${{ env.BUILD_DATE }}
         tag_name: ${{ github.run_id }}
         body: |
