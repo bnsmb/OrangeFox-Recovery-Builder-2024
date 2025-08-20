@@ -206,23 +206,34 @@ jobs:
            ls -l Magisk.apk && \
            /usr/bin/unzip -p Magisk.apk  lib/x86/libmagiskboot.so >magiskboot && \
            chmod 755 magiskboot && \
-           ls -l magiskboot && \
+           ls -l magiskboot && \  
+           echo "### Unpack the boot.img file from OrangeFox ...." && \
+           mkdir -p work && \
+           cd work && \
+           ${{ env.FILE_PATH }}/magiskboot unpack -h ../boot.img && \
+           TWRP_CMDLINE="$( grep cmdline header | cut -f2- -d"=" )" && \
+           pwd && \
+           ls -l && \
+           cat header && \
+           cd .. && \
+           echo "### Retrieve and unpack the boot.img file from LineageOS ...." && \
            /usr/bin/wget -q ${{ github.event.inputs.LOS_BOOT_IMAGE }} -O ./los_boot.img && \
            mkdir -p los && \
            cd los && \
            ${{ env.FILE_PATH }}/magiskboot unpack -h ../los_boot.img && \
            pwd && \
            ls -l && \
-           cd .. && \
-          mkdir -p work && \
-          cd work && \
-          ${{ env.FILE_PATH }}/magiskboot unpack -h ../boot.img && \
-          pwd && \
-          ls -l && \
-          cp ../los/kernel . && \
-          ${{ env.FILE_PATH }}/magiskboot repack ../boot.img ../OrangeFox_recovery_${{ github.event.inputs.LOS_VERSION }}.img && \
-          pwd && \
-          ls -l
+           cat header  && \
+           echo "### Copy the ramdisk with OrangeFox ..." && \
+           cp ../work/ramdisk.cpio . && \
+           echo  "### Correct the header ..." && \
+           sed -i -e "s#^cmdline=#cmdline=${TWRP_CMDLINE} #g" header && \
+           cat header
+           echo "### Create the new OrangeFox Recovery image for the LineageOS ..." && \
+           ${{ env.FILE_PATH }}/magiskboot repack ../los_boot.img ../OrangeFox_recovery_${{ github.event.inputs.LOS_VERSION }}.img && \
+           pwd && \
+           ls -l && \
+           cd ..
       continue-on-error: true
     
     - name: Include Recovery Installer
@@ -256,7 +267,7 @@ jobs:
         files: |
           ${{ env.FILE_PATH }}/obj/PACKAGING/vendor_ramdisk_fragments_intermediates/recovery.*
           ${{ env.FILE_PATH }}/ramdisk-recovery.*
-        name: Unofficial OrangeFox for ${{ github.event.inputs.DEVICE_NAME }} // ${{ env.BUILD_DATE }}
+        name: Unofficial ugly OrangeFox for ${{ github.event.inputs.LOS_VERSION }} on ${{ github.event.inputs.DEVICE_NAME }} // ${{ env.BUILD_DATE }}
         tag_name: ${{ github.run_id }}
         body: |
           Target: ${{ env.RECOVERY_TYPE }}.img
