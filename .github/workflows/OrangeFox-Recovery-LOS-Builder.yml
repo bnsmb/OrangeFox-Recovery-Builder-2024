@@ -188,7 +188,7 @@ jobs:
         cd ${{ env.FILE_PATH }}/
         pwd ; ls -l
         echo "
-        OrangeFox recovery for ${{ github.event.inputs.DEVICE_NAME }} ${{ github.event.inputs.LOS_VERSION }}) created at $( date ) with these values
+        OrangeFox recovery for ${{ github.event.inputs.DEVICE_NAME }} ${{ github.event.inputs.LOS_VERSION }} created at $( date ) with these values
 
         DEVICE_TREE:         ${{ github.event.inputs.DEVICE_TREE}}
         DEVICE_TREE_BRANCH:  ${{ github.event.inputs.DEVICE_TREE_BRANCH }}
@@ -201,7 +201,7 @@ jobs:
         LDCHECK:             ${{ github.event.inputs.LDCHECK }}
         "   >${{ env.FILE_PATH }}//OrangeFox_recovery_version.txt
         test -r ./boot.img  && \
-           echo "Creating an ugly boot image for ${{ github.event.inputs.LOS_VERSION }} using the boot image  ${{ github.event.inputs.DEVICE_LOS_BOOT_IMAGE }} " >./OrangeFox_recovery.txt && \
+           echo "Creating an ugly boot image for ${{ github.event.inputs.LOS_VERSION }} using the boot image ${{ github.event.inputs.LOS_BOOT_IMAGE }} " >./OrangeFox_recovery.txt && \
            /usr/bin/wget -q https://github.com/topjohnwu/Magisk/releases/download/${{ github.event.inputs.MAGISK_VERSION }}/Magisk-${{ github.event.inputs.MAGISK_VERSION }}.apk -O Magisk.apk && \
            ls -l Magisk.apk && \
            /usr/bin/unzip -p Magisk.apk  lib/x86/libmagiskboot.so >magiskboot && \
