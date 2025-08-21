@@ -1,24 +1,3 @@
-Thu Aug 21 07:48:28 2025] usb 4-1: new SuperSpeed USB device number 6 using xhci_hcd
-[Thu Aug 21 07:48:28 2025] usb 4-1: New USB device found, idVendor=0bc2, idProduct=2037, bcdDevice=19.01
-[Thu Aug 21 07:48:28 2025] usb 4-1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
-[Thu Aug 21 07:48:28 2025] usb 4-1: Product: Expansion HDD
-[Thu Aug 21 07:48:28 2025] usb 4-1: Manufacturer: Seagate
-[Thu Aug 21 07:48:28 2025] usb 4-1: SerialNumber: 00000000NT1ARYHK
-[Thu Aug 21 07:48:28 2025] scsi host5: uas
-[Thu Aug 21 07:48:28 2025] scsi 5:0:0:0: Direct-Access     Seagate  Expansion HDD    1901 PQ: 0 ANSI: 6
-[Thu Aug 21 07:48:28 2025] sd 5:0:0:0: Attached scsi generic sg6 type 0
-[Thu Aug 21 07:48:35 2025] sd 5:0:0:0: [sdf] 9767541167 512-byte logical blocks: (5.00 TB/4.55 TiB)
-[Thu Aug 21 07:48:35 2025] sd 5:0:0:0: [sdf] 4096-byte physical blocks
-[Thu Aug 21 07:48:35 2025] sd 5:0:0:0: [sdf] Write Protect is off
-[Thu Aug 21 07:48:35 2025] sd 5:0:0:0: [sdf] Mode Sense: 53 00 00 08
-[Thu Aug 21 07:48:35 2025] sd 5:0:0:0: [sdf] Write cache: enabled, read cache: enabled, doesn't support DPO or FUA
-[Thu Aug 21 07:48:35 2025] sd 5:0:0:0: [sdf] Preferred minimum I/O size 4096 bytes
-[Thu Aug 21 07:48:35 2025] sd 5:0:0:0: [sdf] Optimal transfer size 33553920 bytes not a multiple of preferred minimum block size (4096 bytes)
-[Thu Aug 21 07:48:36 2025] GPT:partition_entry_array_crc32 values don't match: 0xa849ad54 != 0xfe7493b4
-[Thu Aug 21 07:48:36 2025] GPT: Use GNU Parted to correct GPT errors.
-[Thu Aug 21 07:48:36 2025]  sdf: sdf1 sdf2 sdf3 sdf4
-[Thu Aug 21 07:48:36 2025] sd 5:0:0:0: [sdf] Attached SCSI disk
-[Thu Aug 21 07:48:40 2025] EXT4-fs (sdf4): mounted filesystem 4a4e21b5-2b42-433d-9542-6baaca24549b r/w with ordered data mode. Quota mode: none.
 name: OrangeFox - Build for ASUS Zenfone 8 with LineageOS
 
 on:
