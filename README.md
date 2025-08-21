@@ -3,8 +3,44 @@
 only Supports OrangeFox  (14.1 is not ready yet) / 12.1 / 11 
 ```
 
-The default values in this fork of the OrangeFox Recovery Builder are for creating a recovery for the **ASUS Zenfone 8**.
+There are two workflows in this repository:
 
+----
+
+The workflow [The workflow OrangeFox - Build for ASUS Zenfone 8](https://github.com/bnsmb/OrangeFox-Recovery-Builder-2024/actions/workflows/OrangeFox-Recovery-Builder.yml) creates the standard **OrangeFox recovery**.
+
+The documentation for this workflow is [here](http://bnsmb.de/My_HowTos_for_Android.html#How_to_create_a_OrangeFox_Recovery_using_the_OrangeFox_Recovery_Builder_2024) and in this
+post in the XDA forum [How to create a OrangeFoxRecovery using the OrangeFox Recovery Builder](https://xdaforums.com/t/guide-how-to-create-a-orangefox-recovery-using-the-orangefox-recovery-builder-2024.4755242/).
+
+----
+
+The workflow [The workflow OrangeFox - Build for ASUS Zenfone 8 with LineageOS](https://github.com/bnsmb/OrangeFox-Recovery-Builder-2024/actions/workflows/OrangeFox-Recovery-LOS-Builder.yml) creates the standard **OrangeFox recovery** and also an "ugly" **OrangeFox recovery** for phones running the **LineageOS**.
+
+The documentation for this workflow is [here](http://bnsmb.de/My_HowTos_for_Android.html#How_to_create_a_OrangeFox_Recovery_for_LineageOS_22.x_or_newer_on_the_ASUS_Zenfone_8_using_the_OrangeFox_Recovery_Builder_2024)
+and in this post in the XDA forum [How to create a OrangeFox recovery for LineageOS 22.x or newer on the ASUS Zenfone 8 using the OrangeFox Recovery Builder 2024](https://xdaforums.com/t/how-to-create-a-orangefox-recovery-for-lineageos-22-x-or-newer-on-the-asus-zenfone-8-using-the-orangefox-recovery-builder-2024.4755586/)
+
+-----
+
+Both workflows can be used to create an **OrangeFox recovery** for any phone. The default values in both workflows are for creating a recovery for the **ASUS Zenfone 8**.
+
+
+See [below](#usage-instructions) for the instructions to use this repository.
+
+-----
+
+See these HowTos
+
+[How to use TWRP if LineageOS 20.x is installed](http://bnsmb.de/My_HowTos_for_Android.html#How_to_use_TWRP_if_LineageOS_20.x_is_installed)
+
+[How to create a TWRP recovery image for the ASUS Zenfone 8 running a LineageOS 22.x based OS](http://bnsmb.de/My_HowTos_for_Android.html#How_to_create_a_TWRP_recovery_image_for_LineageOS_22.x)
+
+or these posts in the XDA forum about details regarding "ugly" recoveries for the **ASUS Zenfone 8**:
+
+[How to use TWRP if LineageOS 20.x is installed](https://xdaforums.com/t/how-to-use-twrp-if-lineageos-20-x-is-installed.4599721/)
+
+[How to create TWRP recovery image for the ASUS Zenfone 8 running a LineageOS 22.x based OS](https://xdaforums.com/t/how-to-create-a-twrp-recovery-image-for-the-asus-zenfone-8-running-a-lineageos-22-x-based-os.4751520/)
+
+----
 
 ![cap_sprout](https://wiki.orangefox.tech/banner.svg)
 ---
