@@ -285,3 +285,30 @@ jobs:
         python3 ldcheck -p system/lib64:vendor/lib64:system/lib:vendor/lib -d ${{ github.event.inputs.LDCHECK }}
         echo "Done checking missing dependencies. Review, and reconfigure your tree."
       continue-on-error: true
+    
+    - name: Update Release with Log URL
+      uses: actions/github-script@v7
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          const { owner, repo } = context.repo;
+          const release_id = ${{ steps.create_release.outputs.id }};
+          const log_url = `https://github.com/${owner}/${repo}/actions/runs/${{ github.run_id }}`;
+
+          // aktuelles Release laden
+          const release = await github.rest.repos.getRelease({
+            owner,
+            repo,
+            release_id
+          });
+
+          // Body erweitern
+          const newBody = (release.data.body || "") + `\n\n🔗 [View Build Logs](${log_url})`;
+
+          // Release updaten
+          await github.rest.repos.updateRelease({
+            owner,
+            repo,
+            release_id,
+            body: newBody
+          });
