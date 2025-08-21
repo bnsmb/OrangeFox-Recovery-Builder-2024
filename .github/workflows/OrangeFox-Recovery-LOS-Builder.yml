@@ -230,7 +230,7 @@ jobs:
            sed -i -e "s#^cmdline=#cmdline=${TWRP_CMDLINE} #g" header && \
            cat header && \
            echo "### Create the new OrangeFox Recovery image for the LineageOS ..." && \
-           ${{ env.FILE_PATH }}/magiskboot repack ../los_boot.img ../OrangeFox_recovery_${{ github.event.inputs.LOS_VERSION }}.img && \
+           ${{ env.FILE_PATH }}/magiskboot repack ../los_boot.img ../OrangeFox_recovery_${{ github.event.inputs.DEVICE_NAME }}_${{ github.event.inputs.LOS_VERSION }}.img && \
            pwd && \
            ls -l && \
            cd ..
