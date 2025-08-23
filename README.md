@@ -9,6 +9,8 @@ There are two workflows in this repository:
 
 The workflow [The workflow OrangeFox - Build for ASUS Zenfone 8](https://github.com/bnsmb/OrangeFox-Recovery-Builder-2024/actions/workflows/OrangeFox-Recovery-Builder.yml) creates the standard **OrangeFox recovery**.
 
+The default values for this workflow are for creating an OrangeFox recovery for the **ASUS Zenfone 8**. Another change from the workflow in the original repository is the link to the build logs in the release description.
+
 The documentation for this workflow is [here](http://bnsmb.de/My_HowTos_for_Android.html#How_to_create_a_OrangeFox_Recovery_using_the_OrangeFox_Recovery_Builder_2024) and in this
 post in the XDA forum [How to create a OrangeFoxRecovery using the OrangeFox Recovery Builder](https://xdaforums.com/t/guide-how-to-create-a-orangefox-recovery-using-the-orangefox-recovery-builder-2024.4755242/).
 
