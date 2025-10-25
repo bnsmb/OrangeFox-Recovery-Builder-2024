@@ -1,6 +1,6 @@
 # compile OrangeFox Recovery with Github Actions
 ```
-only Supports OrangeFox  (14.1 is not ready yet) / 12.1 / 11 
+only Supports OrangeFox 12.1 / 11  (as of 10/2025 14.1 is not ready yet - do NOT use it
 ```
 
 There are two workflows in this repository:
